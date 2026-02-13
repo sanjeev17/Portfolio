@@ -1,16 +1,134 @@
-# React + Vite
+# SANJEEV RAI — CREATIVE TECHNOLOGIST PORTFOLIO
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A high-end, multidisciplinary portfolio built with React + Vite, representing the work and philosophy of a Creative Technologist working at the intersection of storytelling, performance, motion, and engineering.
 
-Currently, two official plugins are available:
+This repository contains the complete source code for my personal website and professional portfolio.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🧭 Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This is not a template-based portfolio.
 
-## Expanding the ESLint configuration
+It is a curated digital space designed to present:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Narrative-driven creative work
+- Motion and video editing projects
+- Technical builds and frontend systems
+- Applied AI and experimental development
+- Writing and conceptual thinking
+
+The website focuses on clarity, intentional structure, and thoughtful presentation of multidisciplinary work.
+
+---
+
+## ⚙️ Tech Stack
+
+- React
+- Vite
+- Modern JavaScript (ES6+)
+- Component-based architecture
+- Responsive layout system
+- Media modal system for video presentation
+- Performance-first asset handling
+
+---
+
+## 🚀 Development
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+Install dependencies:
+
+npm install
+Run development server:
+
+npm run dev
+Build for production:
+
+npm run build
+Preview production build:
+
+npm run preview
+📁 Project Structure
+src/
+  components/
+  sections/
+  layouts/
+  assets/
+  pages/
+  utils/
+The project follows a modular component-driven architecture designed for scalability and clarity.
+
+🎯 Purpose
+This project exists as:
+
+A professional portfolio
+
+A creative archive
+
+A technical demonstration
+
+A narrative-driven presentation of multidisciplinary work
+
+It is not intended to function as a public template or starter kit.
+
+⚠️ COPYRIGHT & USAGE NOTICE
+© Sanjeev Rai — All Rights Reserved.
+
+This repository and its contents are protected by copyright law.
+
+You may NOT:
+
+Copy or reuse this design
+
+Reproduce the structure or layout
+
+Use assets, videos, or written content
+
+Clone this project as a template
+
+Redistribute modified versions
+
+No permission is granted for commercial or personal reuse.
+
+This codebase is published solely for viewing and professional reference.
+
+If you wish to reference concepts or collaborate professionally, please contact me directly.
+
+🤝 Contact
+If you found something meaningful here — an idea, a rhythm, or a way of thinking — feel free to connect:
+
+LinkedIn: https://www.linkedin.com/in/thesanjeevrai
+
+📌 Notes
+Built with intent.
+
+Designed for clarity.
+
+Focused on execution over noise.
+
+
+---
+
+## ⚠️ Important Reality Check (quick but honest)
+A README alone **does NOT legally stop reuse**.
+
+For real protection you should also:
+
+✔ Add a `LICENSE` file with **All Rights Reserved**  
+✔ Avoid uploading raw premium assets if you want strict control  
+✔ Watermark sensitive media if needed  
+✔ Add copyright notice in website footer
+
+---
+
+## If you want — I can make this even stronger:
+- 🔒 Ultra-professional **portfolio repository structure**
+- 📜 Custom **All Rights Reserved LICENSE file**
+- 🧠 Senior-level **open-source strategy vs closed source strategy**
+- 🚀 Production GitHub repo layout used by elite dev portfolios
+
+Just say the word 👍
