@@ -109,26 +109,3 @@ Built with intent.
 Designed for clarity.
 
 Focused on execution over noise.
-
-
----
-
-## ⚠️ Important Reality Check (quick but honest)
-A README alone **does NOT legally stop reuse**.
-
-For real protection you should also:
-
-✔ Add a `LICENSE` file with **All Rights Reserved**  
-✔ Avoid uploading raw premium assets if you want strict control  
-✔ Watermark sensitive media if needed  
-✔ Add copyright notice in website footer
-
----
-
-## If you want — I can make this even stronger:
-- 🔒 Ultra-professional **portfolio repository structure**
-- 📜 Custom **All Rights Reserved LICENSE file**
-- 🧠 Senior-level **open-source strategy vs closed source strategy**
-- 🚀 Production GitHub repo layout used by elite dev portfolios
-
-Just say the word 👍
