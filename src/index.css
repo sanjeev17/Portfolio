@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Editorial Minimalism Theme */
+:root {
+  --bg-primary: #FFFCF3;
+  --bg-alt: #F6F3EE;
+  --text-primary: #111111;
+  --text-secondary: #707070;
+  --accent: #E86A33;
+  --particle-color: rgba(17, 17, 17, 0.65);
+  --border: #E5E2DC;
+  --subtle: #F5F2ED;
+}
+
+.dark {
+  --bg-primary: #0B0B0F;
+  --bg-alt: #0F1015;
+  --text-primary: #F5F2ED;
+  --text-secondary: #A0A0A0;
+  --accent: #E86A33;
+  --particle-color: rgba(232, 106, 51, 0.8);
+  --border: #1C1D24;
+  --subtle: #14151B;
+}
+
+* {
+  @apply antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Typography Hierarchy */
+h1 {
+  @apply font-bold tracking-tight;
+  font-size: clamp(2rem, 8vw, 5rem);
+  line-height: 1.1;
+}
+
+h2 {
+  @apply font-bold tracking-tight;
+  font-size: clamp(1.75rem, 6vw, 3.5rem);
+  line-height: 1.2;
+}
+
+h3 {
+  @apply font-semibold;
+  font-size: clamp(1.25rem, 4vw, 1.875rem);
+}
+
+h4 {
+  @apply font-semibold;
+  font-size: 1.125rem;
+}
+
+p {
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.15s ease-out;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* Container Responsive */
+.container {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+}
+
+/* Spacing Rhythm */
+.space-y-sm {
+  @apply space-y-2;
+}
+
+.space-y-md {
+  @apply space-y-4;
+}
+
+.space-y-lg {
+  @apply space-y-6;
+}
+
+.space-y-xl {
+  @apply space-y-8;
+}
+
+/* Accent Utilities */
+.accent {
+  color: var(--accent);
+}
+
+.border-accent {
+  border-color: var(--accent);
+}
+
+/* Section backgrounds */
+.section {
+  background-color: var(--bg-primary);
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+.section-alt {
+  background-color: var(--bg-alt);
+}
+
+/* Text measure */
+.text-measure {
+  max-width: 65ch;
+}
+
+/* Navigation underline */
+.nav-link {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 0;
+  background-color: var(--accent);
+  transition: width 0.15s ease-out;
+}
+
+.nav-link:hover::after,
+.nav-link-active::after {
+  width: 100%;
+}
+
+/* Card hover (subtle) */
+.card-hover {
+  transition: transform 0.15s ease-out, color 0.15s ease-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+}
+
+/* Hero headline underline reveal */
+.hero-underline {
+  display: inline-block;
+  background-image: linear-gradient(var(--text-primary), var(--text-primary));
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  transition: background-size 0.35s ease-out;
+}
+
+.hero-headline:hover .hero-underline {
+  background-size: 100% 2px;
+}
+
+.magnify {
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Hero magnifier layer */
+.hero-magnify-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--lens-opacity, 0);
+  filter: blur(var(--lens-blur, 10px)) brightness(var(--lens-bright, 1.2));
+  transform: scale(var(--lens-scale, 1.5));
+  transform-origin: center center;
+  clip-path: circle(var(--lens-size, 60px) at var(--lens-x, 50%) var(--lens-y, 50%));
+  transition: opacity 0.2s ease-out;
+}
+
+/* Smooth transitions */
+button,
+a {
+  transition: color 0.15s ease-out;
+}
+
+/* Hide scrollbar for horizontal slider */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive text sizing */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+  }
+}
