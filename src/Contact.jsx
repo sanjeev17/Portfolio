@@ -33,10 +33,10 @@ const Contact = () => {
       icon: '📷',
     },
     {
-      name: 'Bento',
-      value: 'sanjeevrai',
-      link: 'https://bento.me/sanjeevrai',
-      icon: '🍱',
+      name: 'Linktree',
+      value: 'the_Sanjeev_rai',
+      link: 'https://linktr.ee/the_Sanjeev_rai',
+      icon: '🌿',
     },
   ];
 
@@ -78,44 +78,79 @@ const Contact = () => {
 
         {/* Premium Contact Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {contactLinks.map((contact, index) => (
-            <a
-              key={index}
-              href={contact.link}
-              target={contact.name === 'Email' ? '_self' : '_blank'}
-              rel="noopener noreferrer"
-              className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[var(--bg-primary)] to-[var(--subtle)] p-8 transition-all duration-500 hover:shadow-2xl hover:shadow-[var(--accent)]/10 hover:-translate-y-1 hover:border-[var(--accent)]"
-            >
+          {contactLinks.map((contact, index) => {
+            const isLinktree = contact.name === 'Linktree';
+            return (
+              <a
+                key={index}
+                href={contact.link}
+                target={contact.name === 'Email' ? '_self' : '_blank'}
+                rel="noopener noreferrer"
+                className={`group relative overflow-hidden rounded-2xl border bg-gradient-to-br from-[var(--bg-primary)] to-[var(--subtle)] p-8 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 ${
+                  isLinktree
+                    ? 'border-emerald-400/60 hover:border-emerald-400 hover:shadow-emerald-400/20'
+                    : 'border-[var(--border)] hover:border-[var(--accent)] hover:shadow-[var(--accent)]/10'
+                }`}
+              >
               {/* Hover gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/0 to-[var(--accent)]/0 group-hover:from-[var(--accent)]/5 group-hover:to-[var(--accent)]/10 transition-all duration-500 rounded-2xl"></div>
+              <div
+                className={`absolute inset-0 bg-gradient-to-br transition-all duration-500 rounded-2xl ${
+                  isLinktree
+                    ? 'from-emerald-400/0 to-emerald-400/0 group-hover:from-emerald-400/10 group-hover:to-emerald-400/20'
+                    : 'from-[var(--accent)]/0 to-[var(--accent)]/0 group-hover:from-[var(--accent)]/5 group-hover:to-[var(--accent)]/10'
+                }`}
+              ></div>
               
               {/* Content */}
               <div className="relative flex items-center gap-5">
                 {/* Icon with premium styling */}
-                <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center text-4xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                <div
+                  className={`flex-shrink-0 w-16 h-16 rounded-xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 ${
+                    isLinktree ? 'bg-emerald-400/15' : 'bg-[var(--accent)]/10'
+                  }`}
+                >
                   {contact.icon}
                 </div>
                 
                 {/* Text content */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold text-[var(--accent)] uppercase tracking-[0.15em] mb-2">
+                  <p
+                    className={`text-xs font-bold uppercase tracking-[0.15em] mb-2 ${
+                      isLinktree ? 'text-emerald-400' : 'text-[var(--accent)]'
+                    }`}
+                  >
                     {contact.name}
                   </p>
-                  <p className="text-lg font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-300 break-words">
+                  <p
+                    className={`text-lg font-medium text-[var(--text-primary)] transition-colors duration-300 break-words ${
+                      isLinktree ? 'group-hover:text-emerald-400' : 'group-hover:text-[var(--accent)]'
+                    }`}
+                  >
                     {contact.value}
                   </p>
                 </div>
                 
                 {/* Arrow indicator */}
-                <div className="flex-shrink-0 text-[var(--accent)] opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all duration-300 text-2xl">
+                <div
+                  className={`flex-shrink-0 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all duration-300 text-2xl ${
+                    isLinktree ? 'text-emerald-400' : 'text-[var(--accent)]'
+                  }`}
+                >
                   →
                 </div>
               </div>
               
               {/* Bottom accent line */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--accent)]/0 via-[var(--accent)] to-[var(--accent)]/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
+              <div
+                className={`absolute bottom-0 left-0 right-0 h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center ${
+                  isLinktree
+                    ? 'bg-gradient-to-r from-emerald-400/0 via-emerald-400 to-emerald-400/0'
+                    : 'bg-gradient-to-r from-[var(--accent)]/0 via-[var(--accent)] to-[var(--accent)]/0'
+                }`}
+              ></div>
             </a>
-          ))}
+            );
+          })}
         </div>
 
         {/* Featured Writer's Studio Card - Centered */}
