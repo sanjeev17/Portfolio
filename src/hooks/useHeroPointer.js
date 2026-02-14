@@ -47,6 +47,19 @@ const useHeroPointer = (containerRef, onUpdate) => {
       targetRef.current.y = event.clientY - boundsRef.current.top;
     };
 
+    const onPointerMove = (event) => {
+      if (!boundsRef.current) return;
+      const { left, top, width, height } = boundsRef.current;
+      const x = event.clientX - left;
+      const y = event.clientY - top;
+      const inside = x >= 0 && y >= 0 && x <= width && y <= height;
+      activeRef.current = inside;
+      if (inside) {
+        targetRef.current.x = x;
+        targetRef.current.y = y;
+      }
+    };
+
     const handleScroll = () => {
       const y = window.scrollY || 0;
       scrollDirRef.current = y > lastScrollYRef.current ? 'down' : 'up';
@@ -75,6 +88,9 @@ const useHeroPointer = (containerRef, onUpdate) => {
     };
 
     updateBounds();
+    if (!isMobileDevice && container.matches(':hover')) {
+      activeRef.current = true;
+    }
     window.addEventListener('resize', updateBounds);
     
     // Only add mouse events on desktop devices
@@ -82,6 +98,7 @@ const useHeroPointer = (containerRef, onUpdate) => {
       container.addEventListener('mouseenter', onEnter);
       container.addEventListener('mouseleave', onLeave);
       container.addEventListener('mousemove', onMove);
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
     }
     
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -93,6 +110,7 @@ const useHeroPointer = (containerRef, onUpdate) => {
         container.removeEventListener('mouseenter', onEnter);
         container.removeEventListener('mouseleave', onLeave);
         container.removeEventListener('mousemove', onMove);
+        window.removeEventListener('pointermove', onPointerMove);
       }
       window.removeEventListener('scroll', handleScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);

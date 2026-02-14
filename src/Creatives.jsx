@@ -14,8 +14,11 @@ const Creatives = () => {
   const theatreRefs = useRef([]);
   const collabRef = useRef(null);
   const collabSliderRef = useRef(null);
-  const sliderAnimationRef = useRef(null);
-  const collabAnimationRef = useRef(null);
+  const sliderRafRef = useRef(null);
+  const sliderLastTimeRef = useRef(null);
+  const sliderDirRef = useRef(1);
+  const collabRafRef = useRef(null);
+  const collabLastTimeRef = useRef(null);
   const sliderTimeoutRef = useRef(null);
   const collabTimeoutRef = useRef(null);
 
@@ -120,6 +123,7 @@ const Creatives = () => {
   ];
 
   useEffect(() => {
+    const cleanupFns = [];
     const ctx = gsap.context(() => {
       // Intro animation
       if (introRef.current) {
@@ -152,52 +156,74 @@ const Creatives = () => {
       // Horizontal slider auto-scroll animation
       if (sliderRef.current) {
         const slider = sliderRef.current;
-        const scrollWidth = slider.scrollWidth;
-        const containerWidth = slider.offsetWidth;
-        let userInteracting = false;
+        const speed = 32;
+
+        const stopSliderAnimation = () => {
+          if (sliderRafRef.current) {
+            cancelAnimationFrame(sliderRafRef.current);
+            sliderRafRef.current = null;
+          }
+          sliderLastTimeRef.current = null;
+        };
 
         const startSliderAnimation = () => {
-          if (sliderAnimationRef.current) {
-            sliderAnimationRef.current.kill();
-          }
-          sliderAnimationRef.current = gsap.to(slider, {
-            scrollLeft: scrollWidth - containerWidth,
-            duration: 30,
-            ease: 'none',
-            repeat: -1,
-            yoyo: true,
-          });
+          stopSliderAnimation();
+
+          const step = (time) => {
+            if (!sliderLastTimeRef.current) {
+              sliderLastTimeRef.current = time;
+            }
+            const dt = (time - sliderLastTimeRef.current) / 1000;
+            sliderLastTimeRef.current = time;
+
+            const maxScroll = Math.max(slider.scrollWidth - slider.offsetWidth, 0);
+            if (maxScroll <= 0) {
+              sliderRafRef.current = requestAnimationFrame(step);
+              return;
+            }
+
+            let next = slider.scrollLeft + sliderDirRef.current * speed * dt;
+            if (next <= 0) {
+              next = 0;
+              sliderDirRef.current = 1;
+            } else if (next >= maxScroll) {
+              next = maxScroll;
+              sliderDirRef.current = -1;
+            }
+
+            slider.scrollLeft = next;
+            sliderRafRef.current = requestAnimationFrame(step);
+          };
+
+          sliderRafRef.current = requestAnimationFrame(step);
         };
 
         const handleUserInteraction = () => {
-          userInteracting = true;
-          
-          // Clear any existing timeout
           if (sliderTimeoutRef.current) {
             clearTimeout(sliderTimeoutRef.current);
           }
-          
-          // Kill the animation completely to let user scroll freely
-          if (sliderAnimationRef.current) {
-            sliderAnimationRef.current.kill();
-            sliderAnimationRef.current = null;
-          }
-          
-          // Restart auto-scroll after 3 seconds of no interaction
+
+          stopSliderAnimation();
+
           sliderTimeoutRef.current = setTimeout(() => {
-            userInteracting = false;
             startSliderAnimation();
-          }, 3000);
+          }, 2000);
         };
 
-        // Start animation
         startSliderAnimation();
 
-        // Add event listeners to stop animation on user interaction
         slider.addEventListener('wheel', handleUserInteraction, { passive: true });
         slider.addEventListener('touchstart', handleUserInteraction, { passive: true });
         slider.addEventListener('touchmove', handleUserInteraction, { passive: true });
-        slider.addEventListener('mousedown', handleUserInteraction);
+        slider.addEventListener('pointerdown', handleUserInteraction);
+
+        cleanupFns.push(() => {
+          slider.removeEventListener('wheel', handleUserInteraction);
+          slider.removeEventListener('touchstart', handleUserInteraction);
+          slider.removeEventListener('touchmove', handleUserInteraction);
+          slider.removeEventListener('pointerdown', handleUserInteraction);
+          stopSliderAnimation();
+        });
       }
 
       // Horizontal videos grid animation
@@ -265,72 +291,82 @@ const Creatives = () => {
         
         if (firstSet) {
           const scrollWidth = firstSet.offsetWidth;
-          let userInteracting = false;
-          
-          const startCollabAnimation = () => {
-            if (collabAnimationRef.current) {
-              collabAnimationRef.current.kill();
+          const speed = 36;
+
+          const stopCollabAnimation = () => {
+            if (collabRafRef.current) {
+              cancelAnimationFrame(collabRafRef.current);
+              collabRafRef.current = null;
             }
-            collabAnimationRef.current = gsap.to(slider, {
-              scrollLeft: `+=${scrollWidth}`,
-              duration: 15,
-              ease: 'none',
-              repeat: -1,
-              modifiers: {
-                scrollLeft: (scrollLeft) => {
-                  const maxScroll = slider.scrollWidth - slider.offsetWidth;
-                  return parseFloat(scrollLeft) % scrollWidth;
-                },
-              },
-            });
+            collabLastTimeRef.current = null;
+          };
+
+          const startCollabAnimation = () => {
+            stopCollabAnimation();
+
+            const step = (time) => {
+              if (!collabLastTimeRef.current) {
+                collabLastTimeRef.current = time;
+              }
+              const dt = (time - collabLastTimeRef.current) / 1000;
+              collabLastTimeRef.current = time;
+
+              const maxScroll = Math.max(slider.scrollWidth - slider.offsetWidth, 0);
+              if (maxScroll <= 0) {
+                collabRafRef.current = requestAnimationFrame(step);
+                return;
+              }
+
+              let next = slider.scrollLeft + speed * dt;
+              if (next >= scrollWidth) {
+                next -= scrollWidth;
+              }
+
+              slider.scrollLeft = next;
+              collabRafRef.current = requestAnimationFrame(step);
+            };
+
+            collabRafRef.current = requestAnimationFrame(step);
           };
 
           const handleCollabInteraction = () => {
-            userInteracting = true;
-            
-            // Clear any existing timeout
             if (collabTimeoutRef.current) {
               clearTimeout(collabTimeoutRef.current);
             }
-            
-            // Kill the animation completely to let user scroll freely
-            if (collabAnimationRef.current) {
-              collabAnimationRef.current.kill();
-              collabAnimationRef.current = null;
-            }
-            
-            // Restart auto-scroll after 3 seconds of no interaction
+
+            stopCollabAnimation();
+
             collabTimeoutRef.current = setTimeout(() => {
-              userInteracting = false;
               startCollabAnimation();
-            }, 3000);
+            }, 2000);
           };
 
-          // Start animation
           startCollabAnimation();
 
-          // Add event listeners to stop animation on user interaction
           slider.addEventListener('wheel', handleCollabInteraction, { passive: true });
           slider.addEventListener('touchstart', handleCollabInteraction, { passive: true });
           slider.addEventListener('touchmove', handleCollabInteraction, { passive: true });
-          slider.addEventListener('mousedown', handleCollabInteraction);
+          slider.addEventListener('pointerdown', handleCollabInteraction);
+
+          cleanupFns.push(() => {
+            slider.removeEventListener('wheel', handleCollabInteraction);
+            slider.removeEventListener('touchstart', handleCollabInteraction);
+            slider.removeEventListener('touchmove', handleCollabInteraction);
+            slider.removeEventListener('pointerdown', handleCollabInteraction);
+            stopCollabAnimation();
+          });
         }
       }
     }, sectionRef);
 
     return () => {
       ctx.revert();
+      cleanupFns.forEach((fn) => fn());
       if (sliderTimeoutRef.current) {
         clearTimeout(sliderTimeoutRef.current);
       }
       if (collabTimeoutRef.current) {
         clearTimeout(collabTimeoutRef.current);
-      }
-      if (sliderAnimationRef.current) {
-        sliderAnimationRef.current.kill();
-      }
-      if (collabAnimationRef.current) {
-        collabAnimationRef.current.kill();
       }
     };
   }, []);
