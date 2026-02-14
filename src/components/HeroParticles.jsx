@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { gsap } from 'gsap';
 import useHeroPointer from '../hooks/useHeroPointer';
 
@@ -79,6 +79,23 @@ const HeroParticles = ({ containerRef }) => {
   );
 
   useHeroPointer(containerRef, handleUpdate);
+
+  // Initialize particles to visible state on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      particleRefs.current.forEach((el, index) => {
+        if (!el) return;
+        const particle = particles[index];
+        gsap.to(el, {
+          opacity: particle.opacity * 0.6,
+          duration: 0.8,
+          ease: 'power2.out',
+        });
+      });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [particles]);
 
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">

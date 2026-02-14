@@ -16,7 +16,7 @@ const useHeroPointer = (containerRef, onUpdate) => {
 
     const finePointer = window.matchMedia('(pointer: fine)');
     const hoverCapable = window.matchMedia('(hover: hover)');
-    if (!finePointer.matches || !hoverCapable.matches) return undefined;
+    const isMobileDevice = !finePointer.matches || !hoverCapable.matches;
 
     const updateBounds = () => {
       boundsRef.current = container.getBoundingClientRect();
@@ -76,17 +76,24 @@ const useHeroPointer = (containerRef, onUpdate) => {
 
     updateBounds();
     window.addEventListener('resize', updateBounds);
-    container.addEventListener('mouseenter', onEnter);
-    container.addEventListener('mouseleave', onLeave);
-    container.addEventListener('mousemove', onMove);
+    
+    // Only add mouse events on desktop devices
+    if (!isMobileDevice) {
+      container.addEventListener('mouseenter', onEnter);
+      container.addEventListener('mouseleave', onLeave);
+      container.addEventListener('mousemove', onMove);
+    }
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
     rafRef.current = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener('resize', updateBounds);
-      container.removeEventListener('mouseenter', onEnter);
-      container.removeEventListener('mouseleave', onLeave);
-      container.removeEventListener('mousemove', onMove);
+      if (!isMobileDevice) {
+        container.removeEventListener('mouseenter', onEnter);
+        container.removeEventListener('mouseleave', onLeave);
+        container.removeEventListener('mousemove', onMove);
+      }
       window.removeEventListener('scroll', handleScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
